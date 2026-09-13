@@ -14,17 +14,22 @@ const LINES = [
 ];
 
 function calculateWinner(squares) {
-  for (const [a, b, c] of LINES) {
+  for (const line of LINES) {
+    const [a, b, c] = line;
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      return { winner: squares[a], line };
     }
   }
   return null;
 }
 
-function Square({ value, onClick, disabled }) {
+function Square({ value, onClick, disabled, isWinning }) {
   return (
-    <button className="square" onClick={onClick} disabled={disabled}>
+    <button
+      className={`square${isWinning ? " winning" : ""}`}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {value}
     </button>
   );
@@ -34,7 +39,9 @@ export default function Page() {
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [xIsNext, setXIsNext] = useState(true);
 
-  const winner = calculateWinner(squares);
+  const result = calculateWinner(squares);
+  const winner = result?.winner ?? null;
+  const winningLine = result?.line ?? [];
   const isDraw = !winner && squares.every((s) => s !== null);
 
   function handleClick(i) {
@@ -70,6 +77,7 @@ export default function Page() {
             value={value}
             onClick={() => handleClick(i)}
             disabled={Boolean(value) || Boolean(winner)}
+            isWinning={winningLine.includes(i)}
           />
         ))}
       </div>

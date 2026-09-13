@@ -55,6 +55,14 @@ body {
   cursor: default;
 }
 
+.square.winning {
+  background: #d4f7d4;
+  border-color: #2e7d32;
+  text-decoration: line-through;
+  text-decoration-thickness: 4px;
+  text-decoration-color: #2e7d32;
+}
+
 .reset {
   margin-top: 1.5rem;
   padding: 0.5rem 1.25rem;
